@@ -10,7 +10,9 @@ Chamadas nativas: 1 de 5 (SEC-01 revisão de segurança somente leitura). Agente
 - BACKEND-01 rodada 1: timeout parcial (reserva ok; passport/assess/review ausentes). Rodada 2: concluída; 87 testes verificados pelo orquestrador.
 - GEO-01 rodada 1: timeout parcial. Rodada 2: cache com hash de raw_text, stale persistente, snapshots reais (IBGE 2, DETER 200/815). Aceita após verificação.
 - ML-01 rodada 1: aceita; orquestrador corrigiu overflow (teste test_numeric_limits).
-- FRONTEND-01 rodada 1: timeout parcial; mapa enquadrava o AM inteiro, testes UI todos com mocks. Rodada 2 em andamento.
+- FRONTEND-01 rodada 1: timeout parcial; mapa enquadrava o AM inteiro, testes UI todos com mocks. Rodada 2: timeout parcial; app.js não atualizado (estado nunca carregava). Rodada 3 (última delegada; prompt via stdin após erro de aspas): aceita; 11 testes integrados verificados pelo orquestrador. Ajustes finais diretos: rótulos enganosos, mapa móvel de 380px, filtros recolhidos, texto mínimo de 12px.
+- SEC-01 (nativo 1/5): 2 achados médios e 4 baixos; 5 corrigidos com testes e 1 documentado.
+- Estado final: 96 testes Python e 20 de navegador aprovados; clone limpo executa offline; commits 6017b70 e 2b516db.
 - Orquestrador direto: app.py (rotas, Host/Origin, estáticos, impressão), documents.py, proximidade espacial (tests/test_proximity.py), docs API/README/PILOT.
 
 ## Regra de revisão
