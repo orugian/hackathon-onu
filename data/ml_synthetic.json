@@ -1,0 +1,1101 @@
+{
+  "seed": 42,
+  "features": [
+    "sinal_1",
+    "sinal_2",
+    "sinal_3"
+  ],
+  "classes": [
+    "A",
+    "B",
+    "C"
+  ],
+  "train_count": 90,
+  "test_count": 30,
+  "train_samples": [
+    {
+      "id": "syn_train_A_001",
+      "label": "A",
+      "features": [
+        9.7118,
+        19.6542,
+        29.7774
+      ]
+    },
+    {
+      "id": "syn_train_A_002",
+      "label": "A",
+      "features": [
+        11.404,
+        19.7448,
+        27.0053
+      ]
+    },
+    {
+      "id": "syn_train_A_003",
+      "label": "A",
+      "features": [
+        10.6646,
+        19.4653,
+        29.5661
+      ]
+    },
+    {
+      "id": "syn_train_A_004",
+      "label": "A",
+      "features": [
+        10.2318,
+        20.4646,
+        32.3271
+      ]
+    },
+    {
+      "id": "syn_train_A_005",
+      "label": "A",
+      "features": [
+        11.3133,
+        20.221,
+        28.5234
+      ]
+    },
+    {
+      "id": "syn_train_A_006",
+      "label": "A",
+      "features": [
+        7.9707,
+        20.4927,
+        32.6222
+      ]
+    },
+    {
+      "id": "syn_train_A_007",
+      "label": "A",
+      "features": [
+        10.0833,
+        19.7874,
+        31.0636
+      ]
+    },
+    {
+      "id": "syn_train_A_008",
+      "label": "A",
+      "features": [
+        7.0929,
+        19.3754,
+        30.9807
+      ]
+    },
+    {
+      "id": "syn_train_A_009",
+      "label": "A",
+      "features": [
+        11.7468,
+        19.5187,
+        30.7532
+      ]
+    },
+    {
+      "id": "syn_train_A_010",
+      "label": "A",
+      "features": [
+        10.4964,
+        21.5647,
+        27.7736
+      ]
+    },
+    {
+      "id": "syn_train_A_011",
+      "label": "A",
+      "features": [
+        11.1365,
+        16.971,
+        24.7601
+      ]
+    },
+    {
+      "id": "syn_train_A_012",
+      "label": "A",
+      "features": [
+        8.7862,
+        18.1684,
+        31.752
+      ]
+    },
+    {
+      "id": "syn_train_A_013",
+      "label": "A",
+      "features": [
+        11.3285,
+        17.5619,
+        31.6947
+      ]
+    },
+    {
+      "id": "syn_train_A_014",
+      "label": "A",
+      "features": [
+        7.9956,
+        19.8275,
+        29.4122
+      ]
+    },
+    {
+      "id": "syn_train_A_015",
+      "label": "A",
+      "features": [
+        10.2288,
+        21.6373,
+        31.2768
+      ]
+    },
+    {
+      "id": "syn_train_A_016",
+      "label": "A",
+      "features": [
+        10.6998,
+        21.2999,
+        30.957
+      ]
+    },
+    {
+      "id": "syn_train_A_017",
+      "label": "A",
+      "features": [
+        8.746,
+        18.5653,
+        29.0601
+      ]
+    },
+    {
+      "id": "syn_train_A_018",
+      "label": "A",
+      "features": [
+        10.9987,
+        19.4998,
+        34.6715
+      ]
+    },
+    {
+      "id": "syn_train_A_019",
+      "label": "A",
+      "features": [
+        8.3614,
+        17.8023,
+        31.5369
+      ]
+    },
+    {
+      "id": "syn_train_A_020",
+      "label": "A",
+      "features": [
+        12.8437,
+        21.0114,
+        31.6716
+      ]
+    },
+    {
+      "id": "syn_train_A_021",
+      "label": "A",
+      "features": [
+        12.8527,
+        19.8119,
+        27.1541
+      ]
+    },
+    {
+      "id": "syn_train_A_022",
+      "label": "A",
+      "features": [
+        8.9358,
+        21.9058,
+        27.1126
+      ]
+    },
+    {
+      "id": "syn_train_A_023",
+      "label": "A",
+      "features": [
+        10.0671,
+        20.5065,
+        29.3688
+      ]
+    },
+    {
+      "id": "syn_train_A_024",
+      "label": "A",
+      "features": [
+        11.4473,
+        21.1616,
+        34.6428
+      ]
+    },
+    {
+      "id": "syn_train_A_025",
+      "label": "A",
+      "features": [
+        11.2399,
+        18.7812,
+        28.8764
+      ]
+    },
+    {
+      "id": "syn_train_A_026",
+      "label": "A",
+      "features": [
+        8.3368,
+        21.9045,
+        28.8663
+      ]
+    },
+    {
+      "id": "syn_train_A_027",
+      "label": "A",
+      "features": [
+        9.8595,
+        21.4986,
+        28.5531
+      ]
+    },
+    {
+      "id": "syn_train_A_028",
+      "label": "A",
+      "features": [
+        9.4127,
+        16.3174,
+        27.835
+      ]
+    },
+    {
+      "id": "syn_train_A_029",
+      "label": "A",
+      "features": [
+        8.8645,
+        20.8315,
+        32.387
+      ]
+    },
+    {
+      "id": "syn_train_A_030",
+      "label": "A",
+      "features": [
+        9.9631,
+        20.5227,
+        30.3359
+      ]
+    },
+    {
+      "id": "syn_train_B_001",
+      "label": "B",
+      "features": [
+        50.1956,
+        12.5174,
+        70.4399
+      ]
+    },
+    {
+      "id": "syn_train_B_002",
+      "label": "B",
+      "features": [
+        47.5808,
+        16.7704,
+        70.0064
+      ]
+    },
+    {
+      "id": "syn_train_B_003",
+      "label": "B",
+      "features": [
+        54.5669,
+        15.5617,
+        72.7314
+      ]
+    },
+    {
+      "id": "syn_train_B_004",
+      "label": "B",
+      "features": [
+        47.3935,
+        14.7557,
+        70.6463
+      ]
+    },
+    {
+      "id": "syn_train_B_005",
+      "label": "B",
+      "features": [
+        53.4914,
+        11.6382,
+        71.9812
+      ]
+    },
+    {
+      "id": "syn_train_B_006",
+      "label": "B",
+      "features": [
+        51.1827,
+        18.0671,
+        71.4248
+      ]
+    },
+    {
+      "id": "syn_train_B_007",
+      "label": "B",
+      "features": [
+        50.1041,
+        13.9567,
+        67.5036
+      ]
+    },
+    {
+      "id": "syn_train_B_008",
+      "label": "B",
+      "features": [
+        50.3908,
+        14.6166,
+        74.0405
+      ]
+    },
+    {
+      "id": "syn_train_B_009",
+      "label": "B",
+      "features": [
+        48.778,
+        15.6408,
+        66.862
+      ]
+    },
+    {
+      "id": "syn_train_B_010",
+      "label": "B",
+      "features": [
+        49.2091,
+        15.5223,
+        71.6479
+      ]
+    },
+    {
+      "id": "syn_train_B_011",
+      "label": "B",
+      "features": [
+        52.8962,
+        14.9117,
+        67.7655
+      ]
+    },
+    {
+      "id": "syn_train_B_012",
+      "label": "B",
+      "features": [
+        50.9157,
+        16.034,
+        70.9833
+      ]
+    },
+    {
+      "id": "syn_train_B_013",
+      "label": "B",
+      "features": [
+        48.5994,
+        17.2668,
+        70.1758
+      ]
+    },
+    {
+      "id": "syn_train_B_014",
+      "label": "B",
+      "features": [
+        51.3996,
+        17.5481,
+        71.2185
+      ]
+    },
+    {
+      "id": "syn_train_B_015",
+      "label": "B",
+      "features": [
+        50.573,
+        19.3056,
+        70.4874
+      ]
+    },
+    {
+      "id": "syn_train_B_016",
+      "label": "B",
+      "features": [
+        49.4081,
+        15.2239,
+        72.9655
+      ]
+    },
+    {
+      "id": "syn_train_B_017",
+      "label": "B",
+      "features": [
+        50.2374,
+        16.0388,
+        72.3915
+      ]
+    },
+    {
+      "id": "syn_train_B_018",
+      "label": "B",
+      "features": [
+        48.9743,
+        11.5469,
+        70.5988
+      ]
+    },
+    {
+      "id": "syn_train_B_019",
+      "label": "B",
+      "features": [
+        50.4595,
+        13.784,
+        71.7422
+      ]
+    },
+    {
+      "id": "syn_train_B_020",
+      "label": "B",
+      "features": [
+        51.2151,
+        13.01,
+        71.0364
+      ]
+    },
+    {
+      "id": "syn_train_B_021",
+      "label": "B",
+      "features": [
+        49.6078,
+        12.0339,
+        70.9059
+      ]
+    },
+    {
+      "id": "syn_train_B_022",
+      "label": "B",
+      "features": [
+        49.9096,
+        13.5094,
+        71.0459
+      ]
+    },
+    {
+      "id": "syn_train_B_023",
+      "label": "B",
+      "features": [
+        50.9762,
+        13.8449,
+        70.8007
+      ]
+    },
+    {
+      "id": "syn_train_B_024",
+      "label": "B",
+      "features": [
+        52.0301,
+        13.5747,
+        70.7618
+      ]
+    },
+    {
+      "id": "syn_train_B_025",
+      "label": "B",
+      "features": [
+        50.0055,
+        19.532,
+        66.2754
+      ]
+    },
+    {
+      "id": "syn_train_B_026",
+      "label": "B",
+      "features": [
+        51.3906,
+        14.3875,
+        69.7996
+      ]
+    },
+    {
+      "id": "syn_train_B_027",
+      "label": "B",
+      "features": [
+        53.8032,
+        14.9829,
+        74.4819
+      ]
+    },
+    {
+      "id": "syn_train_B_028",
+      "label": "B",
+      "features": [
+        49.1157,
+        15.701,
+        69.0183
+      ]
+    },
+    {
+      "id": "syn_train_B_029",
+      "label": "B",
+      "features": [
+        48.6186,
+        15.125,
+        69.4349
+      ]
+    },
+    {
+      "id": "syn_train_B_030",
+      "label": "B",
+      "features": [
+        50.405,
+        10.7899,
+        74.0049
+      ]
+    },
+    {
+      "id": "syn_train_C_001",
+      "label": "C",
+      "features": [
+        22.6861,
+        81.2868,
+        40.3754
+      ]
+    },
+    {
+      "id": "syn_train_C_002",
+      "label": "C",
+      "features": [
+        24.3334,
+        80.8998,
+        48.044
+      ]
+    },
+    {
+      "id": "syn_train_C_003",
+      "label": "C",
+      "features": [
+        25.1426,
+        82.0026,
+        44.202
+      ]
+    },
+    {
+      "id": "syn_train_C_004",
+      "label": "C",
+      "features": [
+        23.5112,
+        78.6512,
+        48.0547
+      ]
+    },
+    {
+      "id": "syn_train_C_005",
+      "label": "C",
+      "features": [
+        26.9884,
+        80.9748,
+        51.6605
+      ]
+    },
+    {
+      "id": "syn_train_C_006",
+      "label": "C",
+      "features": [
+        24.9353,
+        81.2407,
+        45.6152
+      ]
+    },
+    {
+      "id": "syn_train_C_007",
+      "label": "C",
+      "features": [
+        24.5562,
+        84.6323,
+        48.0132
+      ]
+    },
+    {
+      "id": "syn_train_C_008",
+      "label": "C",
+      "features": [
+        22.201,
+        79.2003,
+        45.8567
+      ]
+    },
+    {
+      "id": "syn_train_C_009",
+      "label": "C",
+      "features": [
+        26.5664,
+        77.3031,
+        40.4889
+      ]
+    },
+    {
+      "id": "syn_train_C_010",
+      "label": "C",
+      "features": [
+        21.1873,
+        79.8578,
+        44.7936
+      ]
+    },
+    {
+      "id": "syn_train_C_011",
+      "label": "C",
+      "features": [
+        25.6904,
+        78.4607,
+        42.5515
+      ]
+    },
+    {
+      "id": "syn_train_C_012",
+      "label": "C",
+      "features": [
+        20.9539,
+        80.6584,
+        45.7401
+      ]
+    },
+    {
+      "id": "syn_train_C_013",
+      "label": "C",
+      "features": [
+        26.986,
+        81.5816,
+        44.6186
+      ]
+    },
+    {
+      "id": "syn_train_C_014",
+      "label": "C",
+      "features": [
+        27.6985,
+        79.7273,
+        43.6783
+      ]
+    },
+    {
+      "id": "syn_train_C_015",
+      "label": "C",
+      "features": [
+        23.9588,
+        78.8304,
+        40.6685
+      ]
+    },
+    {
+      "id": "syn_train_C_016",
+      "label": "C",
+      "features": [
+        25.3127,
+        80.4998,
+        44.2755
+      ]
+    },
+    {
+      "id": "syn_train_C_017",
+      "label": "C",
+      "features": [
+        23.5723,
+        80.7436,
+        48.4337
+      ]
+    },
+    {
+      "id": "syn_train_C_018",
+      "label": "C",
+      "features": [
+        25.0765,
+        78.9847,
+        43.8171
+      ]
+    },
+    {
+      "id": "syn_train_C_019",
+      "label": "C",
+      "features": [
+        24.8605,
+        77.4705,
+        44.7495
+      ]
+    },
+    {
+      "id": "syn_train_C_020",
+      "label": "C",
+      "features": [
+        25.1224,
+        83.6894,
+        46.8869
+      ]
+    },
+    {
+      "id": "syn_train_C_021",
+      "label": "C",
+      "features": [
+        27.0681,
+        78.5741,
+        46.3398
+      ]
+    },
+    {
+      "id": "syn_train_C_022",
+      "label": "C",
+      "features": [
+        22.7212,
+        80.6239,
+        45.8375
+      ]
+    },
+    {
+      "id": "syn_train_C_023",
+      "label": "C",
+      "features": [
+        23.4672,
+        83.9988,
+        46.1347
+      ]
+    },
+    {
+      "id": "syn_train_C_024",
+      "label": "C",
+      "features": [
+        21.1945,
+        81.1057,
+        44.1852
+      ]
+    },
+    {
+      "id": "syn_train_C_025",
+      "label": "C",
+      "features": [
+        25.0028,
+        80.9315,
+        45.7811
+      ]
+    },
+    {
+      "id": "syn_train_C_026",
+      "label": "C",
+      "features": [
+        20.9217,
+        77.6834,
+        46.5452
+      ]
+    },
+    {
+      "id": "syn_train_C_027",
+      "label": "C",
+      "features": [
+        27.6024,
+        83.8063,
+        48.6063
+      ]
+    },
+    {
+      "id": "syn_train_C_028",
+      "label": "C",
+      "features": [
+        20.8889,
+        81.539,
+        41.1674
+      ]
+    },
+    {
+      "id": "syn_train_C_029",
+      "label": "C",
+      "features": [
+        28.2272,
+        80.5067,
+        42.7177
+      ]
+    },
+    {
+      "id": "syn_train_C_030",
+      "label": "C",
+      "features": [
+        29.0198,
+        81.2879,
+        41.2177
+      ]
+    }
+  ],
+  "test_samples": [
+    {
+      "id": "syn_test_A_001",
+      "label": "A",
+      "features": [
+        12.1695,
+        21.7867,
+        30.5474
+      ]
+    },
+    {
+      "id": "syn_test_A_002",
+      "label": "A",
+      "features": [
+        7.9781,
+        21.8068,
+        30.7621
+      ]
+    },
+    {
+      "id": "syn_test_A_003",
+      "label": "A",
+      "features": [
+        12.4539,
+        19.9402,
+        33.9062
+      ]
+    },
+    {
+      "id": "syn_test_A_004",
+      "label": "A",
+      "features": [
+        9.2822,
+        23.1861,
+        30.2302
+      ]
+    },
+    {
+      "id": "syn_test_A_005",
+      "label": "A",
+      "features": [
+        8.9675,
+        17.7431,
+        29.6979
+      ]
+    },
+    {
+      "id": "syn_test_A_006",
+      "label": "A",
+      "features": [
+        12.8466,
+        21.6327,
+        31.3778
+      ]
+    },
+    {
+      "id": "syn_test_A_007",
+      "label": "A",
+      "features": [
+        5.2483,
+        21.4219,
+        31.1117
+      ]
+    },
+    {
+      "id": "syn_test_A_008",
+      "label": "A",
+      "features": [
+        8.9001,
+        18.7452,
+        29.9954
+      ]
+    },
+    {
+      "id": "syn_test_A_009",
+      "label": "A",
+      "features": [
+        13.4498,
+        17.8898,
+        29.1444
+      ]
+    },
+    {
+      "id": "syn_test_A_010",
+      "label": "A",
+      "features": [
+        12.7236,
+        19.1077,
+        29.2715
+      ]
+    },
+    {
+      "id": "syn_test_B_001",
+      "label": "B",
+      "features": [
+        49.666,
+        18.4858,
+        67.9858
+      ]
+    },
+    {
+      "id": "syn_test_B_002",
+      "label": "B",
+      "features": [
+        50.5851,
+        21.3299,
+        68.2605
+      ]
+    },
+    {
+      "id": "syn_test_B_003",
+      "label": "B",
+      "features": [
+        47.0094,
+        13.907,
+        70.945
+      ]
+    },
+    {
+      "id": "syn_test_B_004",
+      "label": "B",
+      "features": [
+        51.3867,
+        17.5807,
+        69.486
+      ]
+    },
+    {
+      "id": "syn_test_B_005",
+      "label": "B",
+      "features": [
+        46.7955,
+        14.1299,
+        72.4804
+      ]
+    },
+    {
+      "id": "syn_test_B_006",
+      "label": "B",
+      "features": [
+        50.9313,
+        11.0861,
+        69.9299
+      ]
+    },
+    {
+      "id": "syn_test_B_007",
+      "label": "B",
+      "features": [
+        52.7963,
+        19.2531,
+        71.1234
+      ]
+    },
+    {
+      "id": "syn_test_B_008",
+      "label": "B",
+      "features": [
+        50.6186,
+        12.5196,
+        68.3135
+      ]
+    },
+    {
+      "id": "syn_test_B_009",
+      "label": "B",
+      "features": [
+        50.0938,
+        16.0064,
+        71.1604
+      ]
+    },
+    {
+      "id": "syn_test_B_010",
+      "label": "B",
+      "features": [
+        49.0436,
+        12.6961,
+        68.4444
+      ]
+    },
+    {
+      "id": "syn_test_C_001",
+      "label": "C",
+      "features": [
+        25.5869,
+        78.5377,
+        45.2226
+      ]
+    },
+    {
+      "id": "syn_test_C_002",
+      "label": "C",
+      "features": [
+        24.0696,
+        82.747,
+        42.1534
+      ]
+    },
+    {
+      "id": "syn_test_C_003",
+      "label": "C",
+      "features": [
+        25.6348,
+        83.6284,
+        43.3461
+      ]
+    },
+    {
+      "id": "syn_test_C_004",
+      "label": "C",
+      "features": [
+        25.4213,
+        80.404,
+        43.6206
+      ]
+    },
+    {
+      "id": "syn_test_C_005",
+      "label": "C",
+      "features": [
+        26.2958,
+        80.1941,
+        43.1125
+      ]
+    },
+    {
+      "id": "syn_test_C_006",
+      "label": "C",
+      "features": [
+        28.524,
+        81.5832,
+        44.6658
+      ]
+    },
+    {
+      "id": "syn_test_C_007",
+      "label": "C",
+      "features": [
+        23.7267,
+        78.4313,
+        47.4619
+      ]
+    },
+    {
+      "id": "syn_test_C_008",
+      "label": "C",
+      "features": [
+        24.707,
+        80.9189,
+        44.6311
+      ]
+    },
+    {
+      "id": "syn_test_C_009",
+      "label": "C",
+      "features": [
+        26.2328,
+        79.768,
+        46.5277
+      ]
+    },
+    {
+      "id": "syn_test_C_010",
+      "label": "C",
+      "features": [
+        24.6336,
+        81.6592,
+        46.3448
+      ]
+    }
+  ],
+  "notice": "Laboratório kNN sintético com perfis artificiais — SEM VALIDADE BOTÂNICA OU LEGAL",
+  "synthetic": true
+}

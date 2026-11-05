@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:raiztrace:passport:1.0.0",
+  "title": "Passaporte experimental de produto florestal — sem validade oficial",
+  "type": "object",
+  "required": ["schema_version","id","issued_at","lot_id","plot_id","origin","authorization","recipient","product","species","volume_m3","volume_milli","vehicle","invoice","weighing","balance_after_milli","event_id","notice","simulated","hash"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "id": {"type":"string","pattern":"^PASS-[A-Z0-9]+$"},
+    "issued_at": {"type":"string","format":"date-time"},
+    "lot_id": {"type":"string","minLength":1},
+    "plot_id": {"type":"string","minLength":1},
+    "origin": {"type":"object","required":["name","simulated"],"properties":{"name":{"type":"string"},"simulated":{"const":true}}},
+    "authorization": {"type":"object","required":["reference","issuer","status"],"properties":{"reference":{"type":"string"},"issuer":{"type":"string"},"status":{"const":"não verificável"}}},
+    "recipient": {"type":"string","minLength":1,"maxLength":200},
+    "product": {"type":"string","minLength":1},
+    "species": {"type":"string","minLength":1},
+    "volume_m3": {"type":"number","exclusiveMinimum":0,"maximum":1000000},
+    "volume_milli": {"type":"integer","minimum":1,"maximum":1000000000,"description":"Fonte exata do volume: dividir por 1000 para m³."},
+    "vehicle": {"type":"string","minLength":1,"maxLength":200},
+    "invoice": {"type":"string","minLength":1,"maxLength":200},
+    "weighing": {"type":"object","required":["gross_kg","tare_kg","net_kg","net_t","min_kg","max_kg","status","difference_kg","density_min","density_max","formula","notice"],"properties":{
+      "gross_kg":{"type":"number","exclusiveMinimum":0},"tare_kg":{"type":"number","minimum":0},"net_kg":{"type":"number","exclusiveMinimum":0},"net_t":{"type":"number","exclusiveMinimum":0},"min_kg":{"type":"number","minimum":0},"max_kg":{"type":"number","minimum":0},"status":{"enum":["compatible","divergent"]},"difference_kg":{"type":"number","minimum":0},"density_min":{"type":"number","exclusiveMinimum":0},"density_max":{"type":"number","exclusiveMinimum":0},"formula":{"type":"string"},"notice":{"type":"string"}
+    }},
+    "balance_after_milli":{"type":"integer","minimum":0},
+    "event_id":{"type":"integer","minimum":1},
+    "notice":{"type":"string","pattern":"SEM VALIDADE OFICIAL"},
+    "simulated":{"const":true},
+    "hash":{"type":"string","pattern":"^[a-f0-9]{64}$","description":"SHA-256 UTF8 do JSON sem hash, sort_keys=True, separators compactos e ensure_ascii=False."}
+  },
+  "additionalProperties": false
+}

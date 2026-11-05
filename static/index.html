@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAIZTRACE — Conciliação Operacional Florestal</title>
+  <link rel="stylesheet" href="/static/vendor/leaflet.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header (72px, Deep Forest Green) -->
+    <header class="app-header" role="banner">
+      <div class="brand-section">
+        <!-- Abstract Root SVG Logo -->
+        <svg class="brand-logo-svg" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="1.75" />
+          <path d="M18 6v12" stroke="currentColor" stroke-width="2.5" />
+          <path d="M18 18l-6 6-4-2" stroke="currentColor" stroke-width="2" />
+          <path d="M18 18l6 6 4-2" stroke="currentColor" stroke-width="2" />
+          <path d="M18 18v10" stroke="currentColor" stroke-width="2" />
+          <path d="M12 24l-2 5" stroke="currentColor" stroke-width="1.75" />
+          <path d="M24 24l2 5" stroke="currentColor" stroke-width="1.75" />
+        </svg>
+        <h1 class="brand-title">RAIZTRACE</h1>
+      </div>
+
+      <div class="header-status-group">
+        <span class="status-pill hide-mobile">
+          <span class="status-dot"></span>
+          <span>Itacoatiara / AM (Piloto)</span>
+        </span>
+        <span class="integrity-badge" id="header-integrity-badge">
+          Verificando cadeia…
+        </span>
+      </div>
+    </header>
+
+    <!-- Shell: Navigation + Viewport -->
+    <div class="main-shell">
+      <!-- Nav Rail (76px Desktop, Compact Mobile) -->
+      <nav class="main-nav" role="tablist" aria-label="Navegação operacional">
+        <button class="nav-item-btn" role="tab" aria-selected="true" tabindex="0" aria-controls="tab-territory" data-tab="territory" id="nav-btn-territory">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+          <span>Território</span>
+        </button>
+
+        <button class="nav-item-btn" role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-shipments" data-tab="shipments" id="nav-btn-shipments">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>Cargas</span>
+        </button>
+
+        <button class="nav-item-btn" role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-review" data-tab="review" id="nav-btn-review">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Revisão</span>
+        </button>
+
+        <button class="nav-item-btn" role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-lab" data-tab="lab" id="nav-btn-lab">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M10 2v7.31"></path>
+            <path d="M14 2v7.31"></path>
+            <path d="M8.5 2h7"></path>
+            <path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path>
+            <line x1="5.5" y1="18.5" x2="18.5" y2="18.5"></line>
+          </svg>
+          <span>Laboratório</span>
+        </button>
+
+        <button class="nav-item-btn" role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-sources" data-tab="sources" id="nav-btn-sources">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Histórico</span>
+        </button>
+      </nav>
+
+      <!-- Viewport with 5 Tab Panes -->
+      <main class="tab-viewport" id="tab-viewport">
+        <!-- 1. ABA TERRITÓRIO -->
+        <section class="tab-pane active" id="tab-territory" role="tabpanel" aria-labelledby="nav-btn-territory">
+          <!-- Left Column: Map -->
+          <div class="map-column">
+            <div class="map-toolbar" role="toolbar" aria-label="Controles do mapa">
+              <div class="toolbar-group">
+                <label class="layer-toggle-label">
+                  <input type="checkbox" id="layer-toggle-limits" checked>
+                  <span>Limites (IBGE)</span>
+                </label>
+                <label class="layer-toggle-label">
+                  <input type="checkbox" id="layer-toggle-alerts" checked>
+                  <span>Alertas (DETER)</span>
+                </label>
+                <label class="layer-toggle-label">
+                  <input type="checkbox" id="layer-toggle-demo" checked>
+                  <span>Cenário Demonstrativo</span>
+                </label>
+              </div>
+
+              <details class="toolbar-group filter-group filter-disclosure" open>
+                <summary class="filter-summary">Filtrar alertas DETER</summary>
+                <label for="deter-filter-class" class="toolbar-label">Classe:</label>
+                <select id="deter-filter-class" class="toolbar-select" aria-label="Filtrar por classe DETER">
+                  <option value="ALL">Todas as Classes</option>
+                  <option value="CICATRIZ_DE_QUEIMADA">Cicatriz de Queimada</option>
+                  <option value="DESMATAMENTO_CR">Desmatamento com Solo Exposto (CR)</option>
+                  <option value="DEGRADACAO">Degradação</option>
+                  <option value="CS_DESORDENADO">Corte Seletivo Desordenado</option>
+                  <option value="DESMATAMENTO_VEG">Desmatamento sob Vegetação</option>
+                </select>
+                <label class="filter-date-label" for="deter-filter-start">De: <input type="date" id="deter-filter-start" class="toolbar-date-input" aria-label="Data inicial DETER"></label>
+                <label class="filter-date-label" for="deter-filter-end">Até: <input type="date" id="deter-filter-end" class="toolbar-date-input" aria-label="Data final DETER"></label>
+                <button type="button" class="toolbar-btn" id="btn-clear-deter-filters">Limpar</button>
+              </details>
+
+              <div class="toolbar-group">
+                <button type="button" class="toolbar-btn" id="btn-fit-municipality">Enquadrar Município</button>
+                <button type="button" class="toolbar-btn" id="btn-focus-demo">Focar Parcela Demo</button>
+                <button type="button" class="toolbar-btn" id="btn-toggle-base">Alternar Base OSM</button>
+              </div>
+            </div>
+
+            <div class="map-wrapper">
+              <div id="map" role="region" aria-label="Mapa cartográfico de Itacoatiara e alertas DETER"></div>
+              <div class="map-status-strip" id="map-base-status">
+                <span id="map-base-text">Base OSM: verificando…</span> |
+                <span id="map-source-text">Fonte: INPE DETER · carregando proveniência…</span> |
+                <span id="deter-counter-badge" class="counter-badge">Alertas: carregando…</span>
+              </div>
+
+              <!-- Feature Details Drawer -->
+              <aside class="feature-drawer" id="feature-drawer" role="dialog" aria-modal="false" aria-labelledby="drawer-feature-title" tabindex="-1">
+                <div class="drawer-header">
+                  <span class="drawer-title" id="drawer-feature-title">Detalhe da Feição</span>
+                  <button type="button" class="drawer-close-btn" id="btn-close-drawer" aria-label="Fechar detalhes">&times;</button>
+                </div>
+                <div id="drawer-feature-content"></div>
+              </aside>
+            </div>
+          </div>
+
+          <!-- Right Column: Operational Dossier Panel (~360px) -->
+          <aside class="dossier-panel" id="dossier-panel" aria-label="Dossiê operacional do lote">
+            <div id="state-error-banner" class="recoverable-error-banner" style="display:none;" role="alert"></div>
+
+            <!-- Transparency Notice -->
+            <div class="transparency-notice" role="note">
+              <strong>Transparência Operacional</strong>
+              Dados territoriais reais obtidos de fontes públicas oficiais (IBGE / DETER-INPE).
+              Parcela, árvore, lote e carga são fictícios para fins de demonstração técnica.
+              Autorizações DOF, Sinaflor e IPAAM não foram consultadas nem emitidas.
+            </div>
+
+            <!-- Plot & Lot Identification Box -->
+            <div class="section-box">
+              <h2 class="section-title">Lote AM-DEMO-001</h2>
+              <p style="font-size: 13px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                Município de Itacoatiara / AM. Cenário fictício, sem vínculo com imóvel real.
+              </p>
+
+              <dl class="stock-list">
+                <div class="stock-row">
+                  <dt class="stock-row-label">Volume de Abertura</dt>
+                  <dd class="stock-row-value num" id="dossier-opening-volume">-- <span style="font-size: 12px; font-weight: normal;">m³</span></dd>
+                </div>
+                <div class="stock-row">
+                  <dt class="stock-row-label">Saldo Disponível</dt>
+                  <dd class="stock-row-value num highlight" data-testid="available-volume" id="dossier-available-volume">-- <span style="font-size: 12px; font-weight: normal;">m³</span></dd>
+                </div>
+                <div class="stock-row">
+                  <dt class="stock-row-label">Volume Reservado</dt>
+                  <dd class="stock-row-value num" id="dossier-reserved-volume">-- <span style="font-size: 12px; font-weight: normal;">m³</span></dd>
+                </div>
+                <div class="stock-row">
+                  <dt class="stock-row-label">Unidade de Medida</dt>
+                  <dd class="stock-row-value" style="font-size: 12px;">m³ (armazenamento em milésimos)</dd>
+                </div>
+              </dl>
+
+              <button type="button" class="btn-primary" id="btn-quick-reserve">Reservar Carga Deste Lote</button>
+            </div>
+
+            <!-- Spatial Analysis Section in Dossier -->
+            <div class="section-box" id="dossier-spatial-box">
+              <h2 class="section-title">Sobreposição Territorial (Recorte)</h2>
+              <div id="spatial-info-content" style="font-size: 13px;">
+                <div><strong>Sobreposições Detectadas:</strong> <span class="num" id="spatial-count">0</span> alertas no recorte</div>
+                <div style="margin-top: 4px;"><strong>Método:</strong> <span id="spatial-method">Aproximação plana local ray-casting</span></div>
+                <div style="margin-top: 6px; font-size: 12px; color: var(--color-ink-secondary);" id="spatial-notice">
+                  Sobreposições no recorte entre área fictícia e alertas reais, nunca autoria ou legalidade. Não comprova regularidade fundiária.
+                </div>
+              </div>
+            </div>
+
+            <!-- Custody Chain -->
+            <div class="section-box">
+              <h2 class="section-title">Cadeia de Custódia Demonstrativa</h2>
+              <p style="font-size: 12px; color: var(--color-ink-secondary);">
+                Clique ou use o teclado em um elemento para destacar no mapa:
+              </p>
+              <div class="custody-timeline" id="custody-timeline">
+                <button type="button" class="custody-node" data-kind="tree" data-id="TREE-DEMO-001">
+                  <span>Árvore de inventário</span>
+                  <span class="custody-node-kind">Árvore #001</span>
+                </button>
+                <button type="button" class="custody-node" data-kind="yard" data-id="YARD-DEMO-001">
+                  <span>Pátio de estocagem</span>
+                  <span class="custody-node-kind">Pátio Central</span>
+                </button>
+                <button type="button" class="custody-node" data-kind="route" data-id="ROUTE-DEMO-001">
+                  <span>Ramal de transporte</span>
+                  <span class="custody-node-kind">Ligação ilustrativa · não navegável</span>
+                </button>
+                <button type="button" class="custody-node" data-kind="destination" data-id="DEST-DEMO-001">
+                  <span>Cooperativa / Ponto de Destino</span>
+                  <span class="custody-node-kind">Entrega Demo</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Accessible Deter Alerts List (Keyboard Alternative) -->
+            <div class="section-box">
+              <h2 class="section-title">Alertas DETER no Município</h2>
+              <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 8px;">
+                Recorte dos 200 alertas mais recentes (alternativa acessível ao mapa):
+              </p>
+              <div style="max-height: 180px; overflow-y: auto;" id="deter-accessible-list">
+                <div style="font-size: 12px; color: var(--color-ink-secondary);">Carregando alertas...</div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <!-- 2. ABA CARGAS -->
+        <section class="tab-pane" id="tab-shipments" role="tabpanel" aria-labelledby="nav-btn-shipments">
+          <div class="view-scroll-container">
+            <header class="view-header">
+              <h2 class="view-title">Gestão de Cargas e Reservas de Estoque</h2>
+              <p class="view-subtitle">Emissão de reservas com controle transacional idempotente e verificação físico-volumétrica de pesagem.</p>
+            </header>
+
+            <div class="two-col-grid">
+              <!-- Form de Reserva -->
+              <div class="section-box">
+                <h3 class="section-title">Reserva de Volume (Idempotente)</h3>
+
+                <form id="form-shipment" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="shipment-lot-id">Lote de Origem</label>
+                    <input class="form-input" id="shipment-lot-id" type="text" value="AM-DEMO-001" readonly>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="shipment-volume">Volume a Reservar (m³)</label>
+                      <input class="form-input num" id="shipment-volume" type="number" step="0.001" min="0.001" value="10" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="shipment-invoice">Documento / NF</label>
+                      <input class="form-input" id="shipment-invoice" type="text" value="NF-DEMO-001" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="shipment-recipient">Destinatário</label>
+                    <input class="form-input" id="shipment-recipient" type="text" value="Cooperativa demonstrativa" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="shipment-vehicle">Identificação do Veículo</label>
+                    <input class="form-input" id="shipment-vehicle" type="text" value="VEICULO-DEMO" required>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="shipment-gross">Peso Bruto Estimado (kg)</label>
+                      <input class="form-input num" id="shipment-gross" type="number" value="20000">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="shipment-tare">Tara do Veículo (kg)</label>
+                      <input class="form-input num" id="shipment-tare" type="number" value="12000">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Chave de Idempotência Ativa</label>
+                    <div class="idempotency-key-display" id="shipment-idempotency-key">gerando-uuid...</div>
+                    <button type="button" class="btn-secondary" id="btn-new-idempotency" style="align-self: flex-start; padding: 6px 10px; font-size: 12px;">
+                      Gerar Nova Chave
+                    </button>
+                  </div>
+
+                  <div id="pending-shipment-alert" class="feedback-box error" style="display:none;" role="alert"></div>
+
+                  <button type="submit" class="btn-primary" id="btn-submit-shipment">
+                    Emitir Reserva de Carga
+                  </button>
+
+                  <div class="feedback-box shipment-feedback" id="shipment-feedback"></div>
+                </form>
+              </div>
+
+              <!-- Balança e Verificação Físico-Volumétrica -->
+              <div class="section-box">
+                <h3 class="section-title">Balança e Verificação de Pesagem</h3>
+                <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                  Confronta o peso líquido aferido com os limites teóricos calculados pela densidade média da madeira.
+                </p>
+
+                <form id="form-weigh" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="weigh-volume">Volume Declarado (m³)</label>
+                    <input class="form-input num" id="weigh-volume" type="number" step="0.001" value="10" required>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="weigh-gross">Peso Bruto na Balança (kg)</label>
+                      <input class="form-input num" id="weigh-gross" type="number" value="20000" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="weigh-tare">Tara do Veículo (kg)</label>
+                      <input class="form-input num" id="weigh-tare" type="number" value="12000" required>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn-primary" id="btn-verify-weigh">
+                    Conferir pesagem
+                  </button>
+
+                  <div class="result-card weigh-result" id="weigh-result"></div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Tabela de Passaportes Digitais Emitidos -->
+            <div class="section-box">
+              <h3 class="section-title">Passaportes Digitais Emitidos</h3>
+              <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                Registro digital experimental emitido pelo sistema local.
+              </p>
+
+              <div class="data-table-container">
+                <table class="data-table" id="passports-table">
+                  <thead>
+                    <tr>
+                      <th>Identificador</th>
+                      <th>Lote</th>
+                      <th>Volume</th>
+                      <th>Saldo Após</th>
+                      <th>Hash Criptográfico</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="passports-tbody">
+                    <tr>
+                      <td colspan="6" style="text-align: center; color: var(--color-ink-secondary); padding: 16px;">
+                        Nenhum passaporte emitido nesta sessão de teste.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. ABA REVISÃO -->
+        <section class="tab-pane" id="tab-review" role="tabpanel" aria-labelledby="nav-btn-review">
+          <div class="view-scroll-container">
+            <header class="view-header">
+              <h2 class="view-title">Módulo de Revisão Técnica Humana</h2>
+              <p class="view-subtitle">Simulação de regras paramétricas de divergência (SIM-001) e registro formal de parecer com motivação obrigatória.</p>
+            </header>
+
+            <div class="two-col-grid">
+              <!-- Simulação de Apontamento -->
+              <div class="section-box">
+                <h3 class="section-title">Simulação de Apontamento (SIM-001)</h3>
+                <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                  Gera uma avaliação paramétrica de divergência volumétrica para análise fiscal.
+                </p>
+
+                <form id="form-assessment" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="assessment-qty">Quantidade hipotética (m³)</label>
+                    <input class="form-input num" id="assessment-qty" type="number" step="0.1" value="5" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="assessment-hypothesis">Hipótese Técnica</label>
+                    <input class="form-input" id="assessment-hypothesis" type="text" value="Divergência volumétrica entre fuste de campo e transporte">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="assessment-reviewer">Revisor Inicial</label>
+                    <input class="form-input" id="assessment-reviewer" type="text" value="Fiscal Demonstrativo">
+                  </div>
+
+                  <button type="submit" class="btn-primary" id="btn-simulate-assessment">
+                    Simular cálculo SIM-001
+                  </button>
+
+                  <div style="font-size: 12px; color: var(--color-amber); margin-top: 10px;">
+                    Aviso: Simulação interna. Não constitui auto de infração nem autuação de órgãos ambientais.
+                  </div>
+                </form>
+              </div>
+
+              <!-- Formulário de Parecer Técnico Simulado -->
+              <div class="section-box">
+                <h3 class="section-title">Registro de Parecer Técnico Simulado</h3>
+                <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                  Todo julgamento humano requer identificação do profissional e justificativa técnica detalhada.
+                </p>
+
+                <form id="form-review" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="review-target-id">Apontamento Selecionado</label>
+                    <select class="form-select" id="review-target-id">
+                      <option value="">Aguardando geração de apontamento...</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="review-author">Nome do Revisor / Parecerista</label>
+                    <input class="form-input" id="review-author" type="text" placeholder="Ex: Engenheiro Carlos Silva" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="review-decision">Posição do revisor</label>
+                    <select class="form-select" id="review-decision">
+                      <option value="agree">Concordar com apontamento (agree)</option>
+                      <option value="disagree">Discordar do apontamento (disagree)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="review-reason">Motivação / Justificativa Técnica (Obrigatória)</label>
+                    <textarea class="form-textarea" id="review-reason" placeholder="Descreva os fundamentos físicos ou documentais da decisão..." required></textarea>
+                  </div>
+
+                  <button type="submit" class="btn-primary" id="btn-submit-review">
+                    Registrar revisão simulada
+                  </button>
+
+                  <div class="feedback-box review-feedback" id="review-feedback"></div>
+                  <div class="result-card review-definitive-state" id="review-definitive-state"></div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Lista de Avaliações -->
+            <div class="section-box">
+              <h3 class="section-title">Apontamentos Registrados</h3>
+              <div id="assessments-list-container">
+                <p style="font-size: 13px; color: var(--color-ink-secondary);">Nenhum apontamento pendente no momento.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. ABA LABORATÓRIO -->
+        <section class="tab-pane" id="tab-lab" role="tabpanel" aria-labelledby="nav-btn-lab">
+          <div class="view-scroll-container">
+            <header class="view-header">
+              <h2 class="view-title">Laboratório didático</h2>
+              <p class="view-subtitle">Volume geométrico de um fuste e inferência k-NN em perfis artificiais, com abstenção. Nada aqui gera crédito nem identifica espécie.</p>
+            </header>
+
+            <div class="two-col-grid">
+              <!-- Inventário de Fuste -->
+              <div class="section-box">
+                <h3 class="section-title">Cubagem Geometria de Fuste</h3>
+                <p style="font-size: 12px; color: var(--color-ink-secondary); margin-bottom: 12px;">
+                  Calcula o volume comercial do fuste a partir de diâmetro (DAP), altura e fator de forma cilíndrico.
+                </p>
+
+                <form id="form-inventory" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="inv-diameter">Diâmetro do Fuste (DAP em cm)</label>
+                    <input class="form-input num" id="inv-diameter" type="number" step="0.1" value="60" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inv-height">Altura Comercial do Fuste (m)</label>
+                    <input class="form-input num" id="inv-height" type="number" step="0.1" value="15" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="inv-form">Fator de forma f (0 &lt; f ≤ 1, hipótese)</label>
+                    <input class="form-input num" id="inv-form" type="number" step="0.05" value="0.7" required>
+                  </div>
+
+                  <button type="submit" class="btn-primary" id="btn-calc-inventory">
+                    Calcular volume do fuste
+                  </button>
+
+                  <div class="result-card inventory-result" id="inventory-result"></div>
+                </form>
+              </div>
+
+              <!-- Classificador ML (k-NN) -->
+              <div class="section-box">
+                <h3 class="section-title">Perfis artificiais A, B e C (k-NN)</h3>
+                <p style="font-size: 13px; color: var(--color-ink-secondary); margin-bottom: 8px;">
+                  Três números artificiais são comparados aos perfis A, B e C. Longe demais ou sem consenso entre vizinhos: o modelo se abstém.
+                </p>
+                <div style="font-size: 13px; color: var(--color-amber); background: var(--color-amber-bg); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-amber-border); margin-bottom: 12px;">
+                  Aviso: Treinado em perfis sintéticos. NUNCA identifica espécies botânicas reais nem substitui análise pericial botânica.
+                </div>
+
+                <form id="form-ml" novalidate>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="ml-signal-1">sinal_1 (artificial)</label>
+                      <input class="form-input num" id="ml-signal-1" type="number" step="0.01" value="0.82" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="ml-signal-2">sinal_2 (artificial)</label>
+                      <input class="form-input num" id="ml-signal-2" type="number" step="0.01" value="0.45" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="ml-signal-3">sinal_3 (artificial)</label>
+                      <input class="form-input num" id="ml-signal-3" type="number" step="0.01" value="0.63" required>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px; margin-top: 4px;">
+                    <button type="submit" class="btn-primary" id="btn-ml-predict">
+                      Classificar Amostra
+                    </button>
+                    <button type="button" class="btn-secondary" id="btn-ml-distant">
+                      Exemplo Distante [999, 999, 999]
+                    </button>
+                  </div>
+
+                  <div class="result-card ml-result" id="ml-result"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. ABA HISTÓRICO & FONTES -->
+        <section class="tab-pane" id="tab-sources" role="tabpanel" aria-labelledby="nav-btn-sources">
+          <div class="view-scroll-container">
+            <header class="view-header">
+              <h2 class="view-title">Proveniência Cartográfica e Trilha de Integridade</h2>
+              <p class="view-subtitle">Fontes públicas territoriais auditáveis e encadeamento criptográfico de eventos.</p>
+            </header>
+
+            <!-- Tabela de Fontes Públicas -->
+            <div class="section-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 class="section-title" style="margin: 0;">Fontes Cartográficas Oficiais</h3>
+                <button class="btn-secondary" id="btn-refresh-sources">
+                  Atualizar fontes públicas
+                </button>
+              </div>
+
+              <div class="data-table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Identificador</th>
+                      <th>Nome da Fonte</th>
+                      <th>URL Oficial</th>
+                      <th>Status</th>
+                      <th>Obtido em (UTC)</th>
+                      <th>Feições</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sources-tbody">
+                    <tr>
+                      <td>ibge-municipio</td>
+                      <td>IBGE Malha Municipal Itacoatiara</td>
+                      <td>servicodados.ibge.gov.br</td>
+                      <td><span class="result-pill compatible">cached</span></td>
+                      <td>2026-11-05 12:00 UTC</td>
+                      <td>1 feição</td>
+                    </tr>
+                    <tr>
+                      <td>ibge-estado</td>
+                      <td>IBGE Malha Estadual Amazonas</td>
+                      <td>servicodados.ibge.gov.br</td>
+                      <td><span class="result-pill compatible">cached</span></td>
+                      <td>2026-11-05 12:00 UTC</td>
+                      <td>1 feição</td>
+                    </tr>
+                    <tr>
+                      <td>deter-inpe</td>
+                      <td>DETER INPE Alertas Recentes</td>
+                      <td>terrabrasilis.dpi.inpe.br</td>
+                      <td><span class="result-pill compatible">cached (recorte)</span></td>
+                      <td>2026-11-05 12:00 UTC</td>
+                      <td>Recorte 200</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="font-size: 12px; color: var(--color-ink-secondary); margin-top: 8px;">
+                Nota de rede: Conexão externa restrita ao botão de atualização de fontes e ao mapa base OSM. Todas as demais conciliações operam localmente e offline.
+              </div>
+            </div>
+
+            <!-- Trilha de Auditoria & Encadeamento Hash -->
+            <div class="section-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 class="section-title" style="margin: 0;">Livro Razão de Eventos Operacionais</h3>
+                <button class="btn-secondary" id="btn-verify-audit">
+                  Verificar Integridade (GET /api/audit)
+                </button>
+              </div>
+
+              <div class="data-table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Timestamp (UTC)</th>
+                      <th>Tipo do Evento</th>
+                      <th>Hash Criptográfico SHA-256</th>
+                    </tr>
+                  </thead>
+                  <tbody id="audit-events-tbody">
+                    <tr>
+                      <td colspan="4" style="text-align: center; color: var(--color-ink-secondary); padding: 16px;">
+                        Carregando trilha de auditoria...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts locais -->
+  <script src="/static/vendor/leaflet.js"></script>
+  <script src="/static/map.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

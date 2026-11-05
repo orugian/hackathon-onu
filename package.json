@@ -1,0 +1,8 @@
+{
+  "name": "raiztrace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ferramentas opcionais de desenvolvimento; execução Python não requer npm.",
+  "scripts": {"test:ui": "playwright test", "test": "py -3 -m unittest discover -s tests -v"},
+  "devDependencies": {"@playwright/test": "1.58.2", "leaflet": "1.9.4"}
+}

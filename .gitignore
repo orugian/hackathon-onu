@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+node_modules/
+playwright-report/
+test-results/
+.runtime/
+data/*.sqlite*
+data/*.db*
+.env
+.env.*
+!.env.example
+.orchestration/snapshot-*.json
+.impeccable/review/
+data/sources/.*.tmp

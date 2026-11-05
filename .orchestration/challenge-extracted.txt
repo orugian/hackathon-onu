@@ -1,0 +1,333 @@
+LASTRO Amazonas
+Escopo do projeto e plano de implementação do MVP
+Desafio 1  |  Infraestrutura pública digital para cadeias florestais  |  5 de novembro de 2026
+Decisão de produto
+Construir um núcleo aberto de conciliação de evidências que conecte a origem geográfica de um lote à autorização, ao estoque, à carga e à revisão de fiscalização. A entrega em seis horas demonstra documentos padronizados, bloqueio de saldo duplicado, conferência de peso e cálculos explicáveis. A identificação botânica por imagem e as integrações governamentais pertencem à evolução validada do produto.
+Problema e público
+Uma carga pode ter documentação aparentemente coerente e, ainda assim, exigir verificação de origem, quantidade ou espécie. O produto apoia produtores e cooperativas na organização dos registros, compradores na diligência prévia e agentes públicos na seleção e instrução de casos. Ele não concede autorização ambiental nem substitui os sistemas públicos existentes.
+Recorte territorial e operacional
+O piloto proposto cobre o estado do Amazonas, identificado por AM, com uma cooperativa, um pátio e uma rota de transporte de madeira em tora. Amazonas é um estado; Amazônia é uma região e um bioma com limites distintos. O conjunto de demonstração usa Itacoatiara como referência nominal e uma geometria fictícia, sem alegações sobre ocupantes reais. Pará e demais estados ficam fora deste escopo.
+Entregável	Compromisso desta versão
+Documento formal	Escopo, validação, arquitetura, responsabilidades, plano de seis horas e critérios de avaliação.
+Código executável	Python e SQLite, interface local no navegador, sem dependências externas de execução.
+Contrato aberto	JSON versionado, GeoJSON, documentação de API e licença MIT.
+Laboratório de ML	Treinamento e inferência didáticos em dados sintéticos, com abstenção e limites explícitos.
+
+Critério de sucesso principal: impedir que duas reservas de 10 m³ consumam um saldo de 15 m³, mantendo o documento e o histórico coerentes. Uma inconsistência é sinal para investigação; não é uma condenação automática.
+
+1 Regularização e operação de um vendedor
+Não existe uma declaração única que, isoladamente, torne toda madeira legal. A documentação depende da atividade, da origem, da tipologia de exploração e da competência do órgão licenciador. O fluxo abaixo é uma referência operacional para organizar o piloto, a ser conferida com o IPAAM para cada empreendimento. [R1–R4]
+Etapa	Evidência a verificar
+1 Identificar a atividade	Pessoa física ou jurídica, representação, atividade econômica, estabelecimento e situação cadastral aplicável. CTF/APP e regularidade quando exigíveis.
+2 Regularizar a área ou pátio	Direito de uso e documentação territorial; CAR quando aplicável; licenciamento pertinente. CAR não é autorização de corte nem prova de domínio.
+3 Planejar a exploração	Responsável técnico habilitado e responsabilidade técnica; inventário, polígono, projeto e plano operacional quando exigidos para a modalidade.
+4 Obter autorização	Aprovação do órgão competente, com área, espécies, volumes, condições e validade. Declaração do empreendedor não substitui essa aprovação.
+5 Registrar execução e origem	Relacionar árvore, tora ou lote aos registros exigidos; conferir crédito disponível e recebimentos regulares antes de movimentar.
+6 Vender e transportar	Documento fiscal e licença de transporte cabível, com origem, destino, produtos, quantidades, veículo, trajeto e validade consistentes.
+7 Receber e conciliar	Conferir carga física, documento, pesagem e estoque do destinatário; registrar diferenças e preservar evidências.
+
+Responsabilidade e competência
+No Amazonas, a Gerência de Controle Florestal do IPAAM atua no licenciamento e no controle de atividades de base florestal. A competência pode ser federal em situações específicas. O produto deve guardar órgão emissor e jurisdição de cada ato, evitando assumir que todos os casos seguem o mesmo procedimento. [R2, R3]
+Papel dos sistemas existentes
+Sinaflor organiza o controle da origem e os procedimentos relacionados; DOF+ é instrumento de emissão, gestão e monitoramento das licenças de transporte e armazenamento de produtos florestais nativos. O LASTRO propõe uma camada de conciliação sobre evidências obtidas legitimamente, sem emitir um DOF substituto. [R1, R4]
+Portão para piloto real: obter um checklist validado pelo órgão competente e pelo responsável técnico. Não cadastrar “autorizado” apenas porque um arquivo foi anexado; registrar “recebido”, “verificado na fonte”, “vencido”, “divergente” ou “não verificável”.
+
+2 Padronização a partir do documento anexado
+O anexo é uma imagem de um Documento de Origem Florestal histórico, com validade de 11 a 15 de agosto de 2008 e municípios de Santa Catarina. Ele informa produto, espécie, 5,000 m³, emitente, destino, transporte e controle. É referência de campos, não evidência do layout vigente do DOF+ nem documento operacional do Amazonas. O protótipo não reutiliza a empresa, o CNPJ ou a placa do anexo.
+Campo do exemplo	Representação proposta	Verificação prevista
+Emitente e interessado	Partes com identificador e papel	Cadastro e vínculo com o estabelecimento
+Origem e destino	IDs de locais e coordenadas	Coerência espacial e titularidade declarada
+Autorização	Número, órgão, validade e versão	Consulta à fonte e vínculo ao lote
+Produto e espécie	Código de produto e táxon	Vocabulário oficial e evidência botânica
+Quantidade e unidade	Valor decimal e unidade explícita	Saldo, precisão e conversão justificável
+Nota fiscal e valor	Referência fiscal e valor monetário	Correspondência com os itens da carga
+Transporte e rota	Veículo, modal e eventos de passagem	Coerência de veículo, tempo e percurso
+Código de controle	ID do passaporte e hash	Consulta ao registro e integridade do conteúdo
+
+Padrão de documento emitido pelo MVP
+Título “Passaporte experimental de produto florestal”, versão do esquema, identificador, data UTC, origem demonstrativa, autorização de referência, destinatário, produto, espécie não validada, volume em m³, veículo, referência fiscal, bruto, tara, líquido, faixa de massa estimada, saldo após reserva e hash SHA-256. A impressão deve exibir “sem validade oficial” em destaque.
+A exportação JSON é o registro estruturado. A impressão é sua visualização legível. Produção exigirá ainda referências aos arquivos originais, assinatura verificável, consulta autorizada, evidências e cadeia de transformações. Um QR code poderá apontar para consulta pública mínima; ele não prova autenticidade por si só.
+Ingestão de documentos
+No MVP, a entrada é manual e validada. OCR do documento escaneado fica fora das seis horas. Na evolução: preservar o original, extrair texto e coordenadas dos campos, registrar confiança por campo, exigir confirmação para espécie, unidade, autorização e quantidade, e comparar com a fonte oficial. OCR reduz digitação; não autentica um documento.
+
+3 Contrato de dados e interoperabilidade
+O núcleo usa um contrato próprio versionado. Interoperabilidade significa conseguir trocar dados com significado e proveniência preservados, e não apenas exportar um PDF. GeoJSON representa a geometria; o identificador local do MVP não é um GeoID oficial ou compatível com GDSP por certificação.
+Entidade	Campos mínimos de produção	Regra de consistência
+Área de produção	plot_id, geo_id e esquema, geometry, CRS, versão, fonte	Polígono válido; coordenadas longitude e latitude; versão do limite
+Autorização	ID, emissor, modalidade, período, itens e estado	Vínculo ao lote; quantidade por produto e espécie
+Árvore e tora	tree_id, tag, táxon, posição, DAP, altura; log_id e parent_id	Origem preservada após corte e traçamento
+Lote e estoque	lot_id, espécie, produto, unidade, entradas, reservas e saídas	Não misturar saldos de espécies, origens ou produtos
+Evento de custódia	event_id, tipo, instante, ator, local, pais, filhos e quantidade	Idempotência, ordem e transação indivisível
+Pesagem	Ticket, balança, calibração, bruto, tara, líquido e instante	Mesma carga; líquido positivo; unidade explícita
+Evidência e análise	Fonte, arquivo, hash, data, modelo, regra e justificativa	Conclusão vinculada à versão exata das entradas
+
+Convenções de implementação
+Volume de saldo: inteiro em milésimos de m³ para evitar erro binário. Massa: kg, com conversão para toneladas por divisão por 1.000. Dinheiro: decimal, com regra de arredondamento e moeda BRL. Datas: ISO 8601 e fuso explícito. Nomes científicos: vocabulário controlado e referência taxonômica; nomes populares permanecem como aliases. Coordenadas de GeoJSON: longitude antes de latitude.
+Compatibilidade progressiva
+A evolução deve mapear eventos para EPCIS/CBV, mantendo identificadores de origem e semântica de transformação. A família EPCIS oferece representação JSON/JSON-LD e padrões de eventos de cadeia. O MVP não declara conformidade EPCIS. [R10]
+Adaptadores para WHISP e sistemas públicos precisam preservar data de consulta, fonte e resultado bruto, respeitando acesso e licenças. Sem conexão, o status é “não consultado”. Uma indisponibilidade não converte ausência de evidência em aprovação. APIs abertas devem publicar esquema, exemplos, erros, versionamento e política de acesso; dados pessoais e coordenadas sensíveis não serão integralmente públicos.
+
+4 Rastreabilidade e prevenção de saldo duplicado
+O fluxo de produção proposto é área → árvore autorizada → tora identificada → lote → carga → recebimento → transformação. Cada divisão gera filhos vinculados ao registro de origem; cada união mantém todas as origens contribuintes. A genealogia permite reconstruir o caminho inverso de um produto até as áreas de produção.
+Equação de conservação
+Saldo disponível = saldo inicial regular + entradas verificadas − saídas confirmadas − reservas ativas − perdas registradas. Cancelar uma reserva deve devolver apenas a quantidade previamente reservada, uma única vez. Devoluções e ajustes exigem evento próprio e justificativa; nunca se apaga o histórico.
+Operação demonstrada	Saldo antes	Pedido	Resultado
+Saldo de abertura fictício	0 m³	15 m³	15 m³ disponíveis
+Primeira reserva	15 m³	10 m³	Aceita; restam 5 m³
+Segunda reserva	5 m³	10 m³	Bloqueada; excesso de 5 m³
+Reenvio da primeira requisição	5 m³	Mesma chave	Retorna a reserva anterior; saldo inalterado
+
+O que seria ilegal no exemplo
+É necessário definir “15”: árvores, hectares, m³ ou toneladas. Essas unidades não são intercambiáveis. Se o saldo regular é 15 m³ de um mesmo produto, espécie e origem, duas saídas físicas de 10 m³ sem entrada adicional não fecham o balanço e exigem apuração. Se existem outras entradas válidas, elas precisam estar documentadas. A tentativa bloqueada pelo software não demonstra que a segunda carga foi transportada.
+Proteção técnica
+O MVP executa a leitura e o débito dentro de uma transação SQLite com bloqueio de escrita. Assim, duas solicitações simultâneas não conseguem consumir o mesmo saldo. Uma chave de idempotência impede débito duplicado após falha de rede. O passaporte contém um retrato do saldo após a reserva e referência ao evento correspondente.
+Processamento e fiscalização
+Em serraria, o volume de entrada não vira integralmente madeira serrada: existem resíduos e perdas. A evolução controlará rendimentos por processo e parâmetros legalmente aplicáveis, sem usar conversão fixa universal. Fiscalização precisa reconciliar livro de estoque, documentos e medição física; um banco de dados coerente pode conter declarações falsas. Marcação de toras, conferência de inventário e auditoria amostral continuam necessárias.
+
+5 Volume florestal e pesagem do caminhão
+Quanto existe em uma determinada área
+Não se obtém quantidade exata de madeira comercial apenas observando cobertura florestal. São necessários inventário de campo, espécie, dimensões, condição e equação volumétrica adequada à região. Um inventário por amostragem exige expansão por área e estimativa de erro; o volume medido de poucas árvores não deve ser apresentado como total do terreno.
+Para demonstrar o cálculo, o MVP estima volume de fuste por V = π × DAP² × Hc × f / 4, com DAP em metros, altura comercial Hc e fator de forma f. É aproximação geométrica didática; um projeto real deve utilizar metodologia e equações aceitas para sua tipologia e condições.
+Entrada ou resultado	Exemplo didático
+DAP e altura comercial	60 cm = 0,60 m; Hc = 15 m
+Fator de forma	0,70, fornecido como hipótese
+Volume calculado	π × 0,60² × 15 × 0,70 / 4 = 2,9688 m³
+Densidade adotada para exemplo	650 a 950 kg/m³, sem certificação por espécie
+Faixa de massa desse fuste	Aproximadamente 1,9297 a 2,8204 t
+
+Documento versus carga física
+Massa líquida = bruto − tara. Para bruto de 20.000 kg e tara de 12.000 kg, a carga pesa 8.000 kg ou 8 t. Se o documento informa 10 m³, a faixa hipotética de 650–950 kg/m³ corresponde a 6.500–9.500 kg. O resultado é compatível com essa hipótese, mas não comprova espécie ou legalidade.
+Se o líquido é 13.000 kg, ele excede o limite superior da hipótese em 3.500 kg. O sistema registra divergência e solicita conferência de ticket, balança, umidade, casca, carga mista e cubagem. A comparação usa densidade na condição de umidade da carga, não densidade básica aplicada sem correção.
+Limites e papel da IA
+Massa estimada de madeira comercial não é biomassa total da floresta, carbono estocado ou volume autorizado. A faixa de massa exibida pelo MVP não é intervalo estatístico de confiança. Tolerâncias precisam de metrologia e dados, não de um percentual escolhido pela IA. Modelos futuros podem identificar tickets atípicos e padrões de fraude; a conta aritmética permanece determinística e reproduzível.
+
+6 Satélite e fiscalização orientada a evidências
+O satélite é uma fonte de triagem espacial e temporal. Ele permite investigar perturbações e mudanças no uso do solo, mas não garante detectar cada retirada seletiva. Copas vizinhas, estratos inferiores, sombras, nuvens e intervalo entre aquisições podem ocultar alterações. Ausência de alerta não significa ausência de exploração.
+Sentinel-2 possui bandas com resoluções de 10, 20 e 60 metros. Um pixel de 10 metros cobre 100 m²; ele não é uma fotografia botânica individual de toda árvore. A resolução varia por banda, e reamostrar não cria detalhe físico novo. [R6] O DETER produz avisos para apoiar fiscalização e contempla classes de degradação e exploração seletiva; esses avisos não são uma perícia individual de toda tora. [R7]
+Pergunta	Evidência recomendada	Resultado possível
+O corte ocorreu dentro da área?	Polígono autorizado, GNSS, inventário e imagem datada	Dentro, fora ou indeterminado com erro posicional
+A árvore declarada é aquela copa?	Tag de campo, coordenada, ortomosaico e campanha temporal	Associação candidata; confirmação de campo
+Qual é a espécie?	Identificação botânica e dados de sensor adequados	Classe provável ou desconhecida; não certeza automática
+Houve retirada seletiva dispersa?	Série temporal, radar quando adequado, drone e vistoria	Indícios e prioridade; cobertura incompleta
+Quanto saiu efetivamente?	Cubagem, marcações, pesagem e registros de custódia	Conciliação de quantidades e diferenças
+
+Fluxo proposto de fiscalização
+1. Reunir evidências e respectivas datas. 2. Verificar validade, origem e saldo documental. 3. Cruzar a carga com pesagem e cubagem. 4. Priorizar casos com divergências independentes. 5. Solicitar complementação ou vistoria. 6. Registrar medição, autoria e cadeia de custódia das evidências. 7. Submeter enquadramento e cálculo à autoridade competente, preservando contestação.
+Tempo real com definição precisa
+O saldo é verificado no momento da requisição. Uma balança conectada pode gerar eventos imediatos, conforme conectividade. A observação orbital tem agenda de aquisição, processamento e disponibilidade; não é monitoramento contínuo de cada árvore. Todo painel deverá mostrar a data da última evidência e a situação da fonte.
+
+7 Machine learning para copas e taxonomia
+Separar três problemas
+Detecção de copas localiza objetos no dossel; taxonomia estima a identidade de espécies; topografia descreve relevo. Um bom detector de copas não é necessariamente um bom classificador de espécie. Para relevo e altura do dossel, modelos digitais de terreno e superfície devem compartilhar referência e qualidade adequadas, com levantamentos ou LiDAR quando necessário.
+Dados e rotulagem para um piloto real
+Selecionar inicialmente poucas espécies com importância operacional e amostras suficientes, a definir com especialista local. Coletar inventário georreferenciado, DAP, altura, identificação botânica, data, condições da árvore e fotografia de campo. Obter ortomosaico de drone ou imagem aérea de resolução apropriada e, quando viável, informação multiespectral ou hiperespectral. A literatura demonstra possibilidades de mapeamento de espécies com sensores especializados, mas também dificuldades em florestas tropicais diversas. [R8]
+Desenhar polígonos de copas com revisão dupla, relacionando cada copa a uma árvore inventariada. Registrar casos de sobreposição e identidade incerta. Dados de treino precisam de consentimentos, licença e proveniência. Se o erro combinado de localização for maior que a distância entre candidatas, a associação árvore–copa deve permanecer inconclusiva.
+Pipeline proposto
+•	Controlar nuvem, sombra, resolução, alinhamento e data; rejeitar entrada inadequada antes de inferir.
+•	Segmentar copas com um modelo adequado e associar candidatas às árvores de campo sem forçar correspondência única.
+•	Classificar as espécies para as quais existem dados, mantendo a classe desconhecida e a possibilidade de abstenção.
+•	Comparar a espécie declarada com a evidência botânica e a predição; divergência gera revisão, nunca multa direta.
+•	Guardar modelo, versão, dados de entrada, parâmetros, resultado e justificativa para auditoria.
+Treinamento e validação
+Separar treino, validação e teste por propriedade e campanha temporal. Imagens da mesma árvore não podem aparecer em treino e teste. Medir IoU e precisão/recall da detecção; macro F1 e recall por espécie da classificação; calibração, taxa de desconhecidos e de abstenção. A decisão de liberar o modelo depende de teste externo de campo e do custo de erros, não apenas da acurácia média.
+Entrega em seis horas
+O laboratório entregue executa kNN com 90 registros sintéticos de treino e 30 de teste. As classes A, B e C representam perfis artificiais, não espécies. Ele demonstra inferência e abstenção a partir de características digitadas; não lê imagens. O cartão do modelo documenta essas limitações. Treinar um modelo botânico operacional do zero não cabe neste prazo.
+
+8 Taxas multas e decisão assistida
+Automatizar cálculos é viável. Aplicar uma penalidade administrativa exige competência, fatos apurados, fundamento vigente e procedimento correspondente. O usuário final deve revisar evidências, regra e memória de cálculo; a aprovação na tela não atribui poder público a quem não o possui.
+Arquitetura decisória proposta
+A IA pode organizar documentos, indicar anomalias, sugerir hipóteses de enquadramento e redigir uma minuta explicada. Um motor determinístico seleciona apenas regras previamente aprovadas, calcula valores e registra versões. A autoridade revisa a tipificação, os parâmetros, a dosimetria e as evidências antes de qualquer ato oficial. A IA não inventa alíquota, fundamento ou unidade.
+Componente	Saída obrigatória
+Regra jurídica homologada	ID, versão, órgão, jurisdição, vigência, hipótese, unidade e base normativa
+Verificação de aplicabilidade	Fatos, evidências, condições atendidas e pendências
+Memória de cálculo	Quantidade, tarifa ou base, fatores permitidos, arredondamento e resultado
+Revisão	Concordo, discordo ou solicito complementação; responsável, data e motivação
+Ato administrativo	Somente em sistema e procedimento autorizados; contraditório e histórico preservados
+
+Referência legal e limite do automatismo
+O art. 47 do Decreto federal 6.514/2008 trata de condutas relativas a produtos vegetais sem a documentação exigível ou em desacordo com ela. Seu texto contempla multa de R$ 300 por unidades previstas e critérios específicos para volume e correspondência. Isso não autoriza usar “diferença de peso × R$ 300” em qualquer caso. Unidade, conduta, alcance da irregularidade e competência devem ser verificados. Uma diferença entre documentos pode ter diversas causas. [R9]
+Regra demonstrativa implementada
+SIM-001 v1.0 não tem validade jurídica. Para uma quantidade hipotética q em m³, o software calcula multa simulada = q × R$ 300 e taxa simulada = R$ 50 + q × R$ 2. Para q = 5, os resultados são R$ 1.500 e R$ 60. Apesar da coincidência do fator 300 com a referência acima, esta regra não implementa o art. 47 nem a tabela do Amazonas. Os resultados são separados e não cobrados.
+A simulação exige descrição da hipótese e nome do revisor. Concordância e discordância são registradas com justificativa. A tentativa de venda bloqueada por saldo não gera automaticamente uma análise de multa. A versão de produção incluirá complementação e recursos; o MVP admite uma revisão definitiva por análise simulada.
+
+9 Arquitetura técnica e orientação a objetos
+O MVP separa interface, API HTTP, regras de negócio, persistência e laboratório de ML. Essa divisão permite evoluir a demonstração para serviços reutilizáveis. A entrega segue uma perspectiva de gestão de produto e inclui responsabilidades orientadas a objetos para apoiar o desenvolvimento em equipe.
+Componente ou classe	Responsabilidade	Situação
+Interface HTML CSS JS	Formulários, resultados, exportação e impressão	Implementado
+Handler em app.py	Rotas HTTP e validação básica do protocolo	Implementado
+Ledger em domain.py	Reserva atômica, persistência e trilha de eventos	Implementado
+Funções weigh e inventory	Cálculos puros de massa e volume	Implementado
+Módulo ml.py	Dados artificiais, kNN e avaliação	Implementado
+Lote Árvore Tora Autorização	Objetos de domínio e invariantes completas	Evolução de modelagem
+Adaptadores de fonte	Traduzir sistemas externos para o contrato interno	Não implementado
+Motor jurídico homologado	Aplicar regras reais vigentes e competência	Não implementado
+
+Persistência e APIs
+SQLite contém lotes, reservas, análises e eventos. GET /api/state apresenta o estado; POST /api/shipments reserva; /api/inventory e /api/ml calculam; /api/assessments e /api/review executam o fluxo demonstrativo. O passaporte pode ser recuperado por identificador. O esquema e os exemplos acompanham o código.
+Segurança e confiança
+O servidor liga apenas em 127.0.0.1, sem autenticação, para demonstração local. Em produção, são necessários autenticação, perfis de acesso, segregação entre declarante e revisor, criptografia, assinatura verificável, política de retenção, backups e observabilidade. O histórico usa hash encadeado, mas alguém com controle do banco pode reconstruir a cadeia; não se declara imutabilidade criptográfica ou garantia de veracidade.
+Infraestrutura pública digital
+Publicar código e esquema é o início. O piloto de IPD precisa de governança participativa, documentação de versões, instância de referência, mecanismos de contestação e integração de fornecedores. Pequenos produtores devem poder preparar dados sem conexão e receber apoio por cooperativas; reservas definitivas exigem sincronização para evitar duplo gasto. O MVP roda localmente, mas não implementa sincronização entre dispositivos.
+
+10 Escopo funcional e backlog priorizado
+Prio	Entrega	Critério de aceite
+P0	Passaporte JSON e impressão	ID, versão, unidades, vínculo ao lote e aviso sem validade oficial
+P0	Saldo por lote	Duas reservas de 10 contra 15 aceitam apenas uma, inclusive simultâneas
+P0	Conferência de pesagem	Bruto menos tara e comparação com faixa; rejeitar entradas inválidas
+P0	Memória de cálculo simulada	Fórmula, regra, quantidade, resultado e revisão motivada
+P0	Histórico e documentação	Eventos consultáveis; README e licença; execução reproduzível
+P1	Inventário geométrico	Calcular árvores medidas sem converter estimativa em crédito
+P1	Laboratório de ML	Treino e teste sintéticos separados; desconhecido e limites visíveis
+P2	Integrações e mapas reais	Conectores autorizados, fonte datada e validação geográfica
+P2	Copas e taxonomia operacional	Dados rotulados, métricas de campo e modelo validado
+P2	Autuação ou taxas reais	Regras homologadas e integração a processo administrativo
+
+Fora das seis horas
+Não desenvolver rastreamento contínuo de caminhões, conexão com balança industrial, OCR de produção, certificação EUDR, taxonomia confiável por satélite gratuito, emissão oficial de DOF, pagamentos, blockchain, login corporativo ou fiscalização autônoma. Transformação industrial, cancelamento, devolução, inventário completo e múltiplas unidades produtivas são incrementos posteriores.
+Requisitos não funcionais
+Execução offline depois de instalado Python; interface em português; dados artificiais identificados; fontes e unidades visíveis; nenhuma dependência de serviço pago para a demonstração. Respostas de saldo devem ocorrer em menos de um segundo no computador de apresentação como meta a medir, não desempenho já comprovado. Garantir operação básica em tela pequena e navegação por teclado na revisão visual.
+Definição de pronto
+Um item só está pronto quando funciona no fluxo integrado, trata erros essenciais, possui explicação visível e tem evidência de teste proporcional ao risco. O projeto não deve esconder uma simulação atrás de linguagem de integração real. A entrega inclui arquivo executável por Python, código-fonte, licença, dados artificiais e instruções.
+
+11 Divisão de trabalho para cinco integrantes
+Os nomes não foram informados; os papéis abaixo permitem atribuição imediata. Cada integrante responde por um módulo e revisa uma entrega de outra pessoa. Uma única pessoa coordena a integração para evitar versões incompatíveis.
+Integrante	Responsabilidade principal	Entrega verificável
+1 Produto e integração	Congelar escopo, contratos, requisitos e narrativa; integrar branches	Fluxo ponta a ponta, README e roteiro da banca
+2 Backend e estoque	API, SQLite, unidades, idempotência e reservas concorrentes	Bloqueio de saldo e testes do núcleo
+3 Interface e documentos	Formulários, navegação, passaporte, exportação e impressão	Documento legível e fluxo demonstrável
+4 Dados geoespaciais e ML	Inventário de dados, baseline sintético, cartão do modelo e plano real	Inferência didática e limites explicitados
+5 Regras e qualidade	Pesagem, cálculo simulado, revisão, fontes e testes de integração	Memória reproduzível e evidências de validação
+
+Cronograma de seis horas
+Horário relativo	Trabalho em paralelo	Marco de integração
+00h00 a 00h30	Todos alinham unidades, caso 15/10/10, campos e limites; integrante 1 cria estrutura	Contrato v1 e interfaces congelados
+00h30 a 02h00	2 implementa saldo; 3 interface; 4 ML; 5 pesagem e regras; 1 integra documentação	Componentes mínimos respondem com dados fictícios
+02h00 a 03h00	Conectar formulários e API; exportar primeiro passaporte; alinhar erros	Primeiro fluxo completo sem refinamento visual
+03h00 a 04h00	Adicionar revisão, histórico, inventário e laboratório; preparar fontes	Cenários principais completos
+04h00 a 05h00	Testes de concorrência e erro; revisão cruzada; impressão e correções	Congelar funcionalidades às 05h00
+05h00 a 06h00	Ensaiar, corrigir bloqueadores, empacotar, testar em outra máquina e reservar cópia	Entrega e apresentação prontas
+
+Capacidade nominal: 5 pessoas × 6 horas = 30 horas de trabalho. Reserve parte desse tempo para integração; não conte as 30 horas como desenvolvimento líquido. Se houver atraso, preservar P0 e simplificar o laboratório, mantendo a transparência sobre suas limitações.
+
+12 Passo a passo de desenvolvimento e testes
+Sequência de execução
+1. Criar repositório e diretórios static, data e tests. Definir nome do produto e licença. 2. Publicar contrato de dados com unidade m³ e IDs únicos. 3. Implementar banco com saldo inteiro e restrição de não negatividade. 4. Criar reserva em transação e chave de idempotência. 5. Ligar formulário à API e tratar o bloqueio como resultado explícito.
+6. Acrescentar pesagem e inventário com validação de intervalo. 7. Exportar JSON e imprimir o mesmo registro. 8. Adicionar cálculo fictício, revisão e trilha encadeada. 9. Integrar baseline de ML sem dependências e cartão do modelo. 10. Rodar testes, revisar interface, executar ensaio e empacotar sem bancos de teste ou credenciais.
+Cenário de teste	Resultado esperado
+15 m³ e duas reservas de 10	Uma aceita; outra bloqueada; saldo final 5
+Duas requisições simultâneas	Apenas uma reserva aceita, sem saldo negativo
+Mesmo pedido reenviado	Mesmo passaporte; nenhum débito adicional
+Mesma chave com outro conteúdo	Erro explícito e saldo preservado
+Volume negativo nulo ou não finito	Rejeição antes de alterar o banco
+Três reservas de 0,1 m³	Saldo final 14,7 m³ sem deriva de arredondamento
+Bruto 20.000 e tara 12.000 kg	Líquido 8 t; dentro da hipótese do exemplo
+Bruto 25.000 e tara 12.000 kg	Divergência de 3.500 kg frente ao limite de 9.500
+DAP 60 cm altura 15 fator 0,7	Volume aproximado de 2,9688 m³
+5 m³ na regra SIM-001	R$ 1.500 e R$ 60 separados; revisão registrada
+Evento adulterado no banco de teste	Verificação local de hash indica alteração
+Características muito distantes no ML	Resultado inconclusivo; espécie não verificada
+
+Comandos para reprodução
+Windows: extrair o ZIP, abrir PowerShell na pasta e executar py -3 app.py. Acessar http://127.0.0.1:8765. Não é necessário instalar Streamlit ou pacotes Python. Para testar: py -3 -m unittest discover -s tests -v. Para recriar o conjunto sintético: py -3 ml.py.
+O código entregue contém 11 testes automatizados do núcleo; alguns testes cobrem mais de um cenário da tabela. A validação de apresentação deve incluir abrir a interface, navegar, imprimir e repetir o roteiro no computador da banca. Testes de lógica não substituem homologação jurídica, integração oficial ou piloto de campo.
+
+13 Validação da ideia e valor gerado
+Hipótese e validação honesta
+Hipótese central: conciliar evidências e impedir reutilização de saldo reduz inconsistências e tempo de conferência. A viabilidade técnica do núcleo pode ser demonstrada em laboratório. Demanda de mercado, adoção institucional e redução real de fraude ainda precisam de entrevistas e piloto; não há clientes, convênios ou validação de campo confirmados nesta proposta.
+Hipótese	Experimento proposto	Decisão de avanço
+Dor operacional relevante	Entrevistar 2 cooperativas, 2 compradores e 1 técnico ou fiscal	Obter exemplos anonimizados e confirmar um fluxo prioritário
+Padronização reduz retrabalho	Comparar tarefa manual e fluxo digital em 20 casos autorizados	Meta de reduzir tempo mediano em 30% sem piorar erros críticos
+Saldo evita duplicação	Executar casos válidos e casos de excesso/concorrência	100% dos casos determinísticos esperados passam
+Pesagem melhora triagem	Comparar 30 cargas com cubagem, umidade e tickets confiáveis	Estimar erro e falsos alertas antes de definir limiar
+ML agrega evidência	Teste em área e campanha independentes, com especialista	Avançar apenas se superar baseline e abster quando necessário
+
+Diferencial defensável
+O diferencial proposto é reunir saldo transacional, proveniência, conciliação física e incerteza explícita em componentes abertos. Ele está no fluxo auditável, não na promessa de descobrir qualquer crime pelo satélite. A aplicação pode identificar documentos contraditórios mesmo quando a imagem não mostra corte, e pode solicitar evidência adicional quando o documento parece correto.
+Valor econômico e sustentabilidade operacional
+Para a cooperativa, menos redigitação e melhor organização. Para o comprador, um dossiê verificável. Para o órgão público, seleção fundamentada de casos. Estimar benefício por: horas economizadas × custo por hora + perdas evitadas comprovadas − custo operacional. Não atribuir valuation financeiro sem dados de adoção, receita, custos e risco.
+O demonstrador utiliza dependências padrão e dados artificiais, dispensando cobrança de API para executar. Isso não torna a solução real sem custo: equipe, inventário, voos, imagens, armazenamento, manutenção e integração precisam de orçamento. Um modelo sustentável pode combinar núcleo gratuito com serviços opcionais de implantação, suporte e integração, preservando portabilidade e governança pública.
+Métricas de piloto
+Medir tempo de conferência, completude documental, taxa de divergências confirmadas, falsos alertas, casos inconclusivos, custo por carga verificada e participação de pequenos produtores. Não apresentar “hectares salvos” ou “fraudes evitadas” sem desenho de avaliação que sustente atribuição causal.
+
+14 Critérios de avaliação ODS e riscos
+Os sete critérios possuem peso igual. Em uma escala de 0 a 10, a nota final será a soma das sete notas dividida por 7. Cada critério representa aproximadamente 14,29% da avaliação; a equipe não deve investir todo o tempo em uma única função de IA.
+Critério	Evidência para a banca
+Prontidão para implementação	Executar em outra máquina, sem dependências; mostrar limitações e plano de piloto.
+Abordagem criativa	Demonstrar conciliação físico documental e tratamento explícito da incerteza.
+Escopo e complexidade	Mostrar o problema completo e o recorte que cabe em seis horas, com evolução definida.
+Execução técnica e documentação	API, esquema, transações, testes, cartão do modelo e roteiro reproduzível.
+Comunicação e apresentação	Caso 15/10/10, conferência de peso e revisão em cinco minutos.
+Código aberto	Licença MIT, código e dados artificiais entregues; documentação de contribuição.
+Sustentabilidade e ODS	Indicadores de inclusão, uso responsável de recursos e transparência institucional.
+
+Alinhamento com os ODS
+ODS 12: rastreabilidade e produção responsável, medindo registros conciliados. ODS 15: manejo sustentável e proteção de ecossistemas, medindo evidências úteis à fiscalização sem presumir impacto ambiental. ODS 16: decisões justificadas e possibilidade de revisão. ODS 17: padrões abertos e integração de atores. ODS 9 é apoio complementar pela infraestrutura digital reutilizável. [R11]
+Riscos prioritários e resposta
+Risco	Resposta de produto
+Declarações falsas na origem	Cruzar fontes independentes e exigir verificação de campo para casos críticos.
+Modelo erra espécie ou ignora corte	Abstenção, validação externa, especialista e proibição de sanção baseada só no modelo.
+Documento ou regra desatualizada	Guardar validade, fonte, versão e bloquear conclusão jurídica automática.
+Exclusão de pequenos produtores	Interface simples, assistência cooperativa e coleta offline na evolução.
+Exposição de dados sensíveis	Acesso por perfil e consulta pública mínima; proteger localização sensível.
+Conectores indisponíveis	Mostrar última atualização e pendência; não fingir validação em tempo real.
+
+
+15 Por que o problema ainda não está resolvido
+Resposta à pergunta sobre a ONU
+A premissa de que a ONU ainda não fez nada é incorreta. A FAO desenvolve o Open Foris WHISP, uma solução aberta de análise de uso do solo e risco por área, com interfaces e API. Ela já fornece partes da infraestrutura imaginada no desafio. No Brasil, também existem instrumentos de origem e rastreabilidade. Portanto, a proposta deve colaborar com esse ecossistema, e não apresentar seus componentes como inéditos. [R1, R4, R5]
+A existência de documentos e imagens não garante que os dados sejam completos, verdadeiros, acessíveis, atualizados e juridicamente suficientes. Um alerta geográfico não associa automaticamente uma tora específica a uma árvore, e uma licença não prova que a carga física corresponde ao declarado. A lacuna depende de medição, integração, governança, custos, cobertura e atuação estatal. Essa é uma inferência de projeto a partir das capacidades e limites das fontes consultadas.
+Posicionamento do LASTRO
+O LASTRO complementa a análise geoespacial com reconciliação de quantidade, pesagem, genealogia de produto e decisão explicada. Não promete provar legalidade universalmente. O valor público está em tornar evidências comparáveis, reduzir espaço para duplicação e direcionar investigação, inclusive quando a tecnologia precisa responder “não verificável”.
+Roteiro de apresentação de cinco minutos
+Minutos e segundos	Demonstração ou fala
+00:00 a 00:40	Problema: documentos e carga precisam contar a mesma história; delimitar Amazonas.
+00:40 a 01:50	Mostrar 15 m³, reservar 10 e bloquear a segunda reserva de 10.
+01:50 a 02:40	Conferir massa líquida e exportar passaporte padronizado.
+02:40 a 03:25	Mostrar laboratório de ML e explicar por que ele ainda não identifica espécies reais.
+03:25 a 04:15	Calcular valores fictícios e registrar revisão humana fundamentada.
+04:15 a 05:00	Mostrar testes, código aberto, próximos passos e pedido de parceiro de piloto.
+
+Evolução e decisão de continuidade
+Em 30 dias, propor entrevistas, contrato de dados e parceria técnica; em 60 dias, executar conciliação de cargas com acesso autorizado e medir resultados; em 90 dias, avaliar expansão e início de campanha geoespacial rotulada. São metas condicionais, não prazos garantidos de homologação. Sem acesso a dados, equipe técnica e validação institucional, manter a solução como demonstrador.
+Mensagem central para a banca: o sistema não precisa ver toda árvore para impedir reutilização de saldo; e não precisa fingir certeza para produzir uma investigação melhor.
+
+16 Fontes e referências verificadas
+Consulta realizada em 5 de novembro de 2026. Fontes oficiais e pesquisa primária sustentam o contexto; parâmetros de negócio, metas de piloto e regras fictícias são propostas do projeto. A imagem anexada foi usada somente para mapear campos históricos.
+R1 Ibama Sistema Nacional de Controle da Origem dos Produtos Florestais
+Papel do Sinaflor e referências de integração e padronização.
+Consultar fonte R1
+R2 Governo Federal Cadastrar atividades e obter autorização para exploração de produtos florestais de espécies nativas
+Etapas gerais e competência de autorização.
+Consultar fonte R2
+R3 IPAAM Gerência de Controle Florestal
+Atribuições do órgão estadual na gestão florestal.
+Consultar fonte R3
+R4 Ibama DOF e DOF Rastreabilidade
+Natureza e função da licença de transporte e armazenamento.
+Consultar fonte R4
+R5 FAO Open Foris Whisp
+Infraestrutura aberta de análise geoespacial por área.
+Consultar fonte R5
+R6 Copernicus Data Space Ecosystem Sentinel 2
+Resoluções das bandas e características de observação.
+Consultar fonte R6
+
+17 Referências técnicas e materiais entregues
+R7 INPE BiomasBR Deter
+Avisos de supressão e degradação para apoio ao monitoramento.
+Consultar fonte R7
+R8 PLOS ONE Operational Tree Species Mapping in a Diverse Tropical Forest with Airborne Imaging Spectroscopy
+Pesquisa primária sobre mapeamento de espécies em floresta tropical; não é validação do LASTRO.
+Consultar fonte R8
+R9 Câmara dos Deputados Decreto 6514 de 2008 texto atualizado
+Referência ao art. 47; aplicação concreta depende de enquadramento e competência.
+Consultar fonte R9
+R10 GS1 EPCIS e CBV artefatos oficiais
+Padrões de eventos e representações interoperáveis.
+Consultar fonte R10
+R11 Nações Unidas Sustainable Development Goals
+Definições dos objetivos de desenvolvimento sustentável.
+Consultar fonte R11
+Materiais que acompanham o projeto
+Arquivo ZIP com código Python, interface HTML/CSS/JavaScript, testes, licença MIT, README, documentação da API, esquema JSON, dados sintéticos e cartão do modelo. O banco de demonstração é criado na primeira execução; nenhum documento pessoal ou dado da empresa retratada no anexo é distribuído no protótipo.
+Versão de produto 1.0.0. Uma entrega operacional requer validações adicionais descritas neste documento. O escopo do MVP permanece deliberadamente limitado à prova técnica de conciliação e revisão.

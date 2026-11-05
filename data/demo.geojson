@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "name": "Cenário operacional fictício — não representa imóvel, ocupante ou autorização real",
+  "features": [
+    {"type":"Feature","id":"AREA-DEMO-001","properties":{"id":"AREA-DEMO-001","name":"Área demonstrativa","kind":"plot","simulated":true,"lot_id":"AM-DEMO-001","notice":"Geometria fictícia, sem autorização ou ocupante real associado."},"geometry":{"type":"Polygon","coordinates":[[[-58.850,-3.130],[-58.841,-3.130],[-58.841,-3.123],[-58.850,-3.123],[-58.850,-3.130]]]}},
+    {"type":"Feature","id":"TREE-DEMO-001","properties":{"id":"TREE-DEMO-001","name":"Árvore de inventário · exemplo","kind":"tree","simulated":true,"lot_id":"AM-DEMO-001","parent_id":"AREA-DEMO-001","diameter_cm":60,"height_m":15,"form_factor":0.7,"species":"Táxon não verificado"},"geometry":{"type":"Point","coordinates":[-58.846,-3.126]}},
+    {"type":"Feature","id":"YARD-DEMO-001","properties":{"id":"YARD-DEMO-001","name":"Pátio demonstrativo","kind":"yard","simulated":true,"lot_id":"AM-DEMO-001","notice":"Local fictício; não identifica empreendimento real."},"geometry":{"type":"Point","coordinates":[-58.837,-3.135]}},
+    {"type":"Feature","id":"ROUTE-DEMO-001","properties":{"id":"ROUTE-DEMO-001","name":"Ligação logística ilustrativa","kind":"route","simulated":true,"lot_id":"AM-DEMO-001","notice":"Linha esquemática, não é trajeto autorizado, navegável ou rastreamento de veículo."},"geometry":{"type":"LineString","coordinates":[[-58.846,-3.126],[-58.837,-3.135],[-58.72,-3.16],[-58.58,-3.18],[-58.445,-3.14]]}},
+    {"type":"Feature","id":"DEST-DEMO-001","properties":{"id":"DEST-DEMO-001","name":"Destino demonstrativo","kind":"destination","simulated":true,"lot_id":"AM-DEMO-001","notice":"Ponto ilustrativo, sem vínculo com empresa real."},"geometry":{"type":"Point","coordinates":[-58.445,-3.14]}}
+  ]
+}
