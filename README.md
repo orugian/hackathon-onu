@@ -60,7 +60,18 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-Os testes de navegador criam banco novo a cada execução. Testes com serviços simulados exercitam componentes; somente testes integrados contra o servidor validam o fluxo de ponta a ponta. Resultados finais e limites são registrados no relatório de validação da entrega.
+Os testes de navegador criam um banco novo a cada execução. [ui.spec.js](tests/ui.spec.js) testa componentes com respostas simuladas. Já [ui.integration.spec.js](tests/ui.integration.spec.js) não intercepta a API e exercita o fluxo completo contra o servidor real; somente os tiles OSM são bloqueados, para validar o modo offline.
+
+Resultado verificado em 05/11/2026: **96 testes Python** e **20 testes de navegador** aprovados (11 integrados, sem mocks). A reserva concorrente via HTTP (duas de 10 m³ simultâneas contra 15 m³) foi repetida cinco vezes: em cada rodada, uma foi aceita, outra foi bloqueada e as respostas ficaram abaixo de 1 s. Um clone limpo, sem npm nem rede, inicializou e serviu os dados reais do snapshot.
+
+## Cruzamento de dados
+
+O painel "Sobreposição territorial" compara a área fictícia com os alertas DETER reais:
+- sobreposição geométrica, respeitando furos e multipolígonos;
+- distância em km até o alerta mais próximo e contagens nos raios de 5, 10 e 20 km;
+- verificação de que a área está dentro do limite municipal IBGE.
+
+Os cinco alertas mais próximos são botões que focam a geometria no mapa e mostram classe, data de observação, sensor e fonte. O resultado é uma **triagem para priorizar conferência**. Proximidade não é autoria, e ausência de alerta não é regularidade.
 
 ## Estrutura
 
